@@ -153,7 +153,6 @@ class TreeNode:
     def add_child(self, child):
         self.children.append(child)
 
-def Gra
 
 # For tree-sitter-codeview format
 def get_custom_ast(ast_json):
@@ -256,36 +255,30 @@ if __name__=='__main__':
                 if not file.filename.endswith('.java'):
                     continue
 
-                code_changes = extract_changes(file.patch)
+                print(file.patch)
 
-                for code_change in code_changes:
+                # code_changes = extract_changes(file.patch)
+
+                # for code_change in code_changes:
                     
-                    text_del, text_add = code_change
+                #     text_del, text_add = code_change
 
-                    with open(INPUT_PATH, 'w+') as f:
-                        f.write(text_del)
+                #     with open(INPUT_PATH, 'w+') as f:
+                #         f.write(text_del)
 
-                    subprocess.run('python main.py', shell=True, cwd=TS_ROOT, stdout=subprocess.PIPE)
+                #     subprocess.run('python main.py', shell=True, cwd=TS_ROOT, stdout=subprocess.PIPE)
 
-                    ast_del = json.load(open(OUTPUT_PATH, 'r'))
-                    ast_del = get_custom_ast(ast_del)
-
-
-                    with open(INPUT_PATH, 'w+') as f:
-                        f.write(text_add)
-
-                    subprocess.run('python main.py', shell=True, cwd=TS_ROOT, stdout=subprocess.PIPE)
-
-                    ast_add = json.load(open(OUTPUT_PATH, 'r'))
-                    ast_add = get_custom_ast(ast_add)
+                #     ast_del = json.load(open(OUTPUT_PATH, 'r'))
+                #     ast_del = get_custom_ast(ast_del)
 
 
+                #     with open(INPUT_PATH, 'w+') as f:
+                #         f.write(text_add)
 
-                    exit(0)
-                    
+                #     subprocess.run('python main.py', shell=True, cwd=TS_ROOT, stdout=subprocess.PIPE)
 
-
-
+                #     ast_add = json.load(open(OUTPUT_PATH, 'r'))
+                #     ast_add = get_custom_ast(ast_add)
 
 
                 print('--------------------------------------------------')
