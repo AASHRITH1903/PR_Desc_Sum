@@ -143,11 +143,67 @@ def get_obj(username, repo_name, pull_number, user, repo):
 
 #     return ast
 
+class TreeNode:
+    def __init__(self, id, label, node_type):
+        self.id = id
+        self.label = label
+        self.node_type = node_type
+        self.children = []
+    
+    def add_child(self, child):
+        self.children.append(child)
 
+def Gra
+
+# For tree-sitter-codeview format
+def get_custom_ast(ast_json):
+    edges = ast_json['links']
+    nodes = ast_json['nodes']
+    node_dict = {}
+
+    for node in nodes:
+        node_dict[node['id']] = TreeNode(node['id'], node['label'], node['node_type'])
+
+    for edge in edges:
+        node_dict[edge['source']].add_child(node_dict[edge['target']])
+
+    root_node = min(list(node_dict.keys()))
+
+    return node_dict[root_node]
+
+def extract_changes(patch):
+    patch_lines = patch.split('\n')
+    changes = []
+    plus_lines = ""
+    minus_lines = ""
+    flag = False
+    for line in patch_lines:
+        if line.startswith('-'):
+            minus_lines += line[1:] + '\n'
+            flag = True
+        elif line.startswith('+'):
+            plus_lines += line[1:] + '\n'
+            flag = True
+        else:
+            if flag:
+                changes.append((minus_lines, plus_lines))
+                minus_lines = ""
+                plus_lines = ""
+                flag = False
+
+    if flag:
+        changes.append((minus_lines, plus_lines))
+        minus_lines = ""
+        plus_lines = ""
+        flag = False
+
+    return changes
+ 
 
 if __name__=='__main__':
 
     st_g = time.time()
+    q = 0
 
     if not path.isdir('repos'):
         os.makedirs('repos')
@@ -161,7 +217,7 @@ if __name__=='__main__':
 
     for d_key in dataset:
 
-        print(f'\n--- datapoint {i} -------------------\n')
+        # print(f'\n--- datapoint {i} -------------------\n')
         i += 1
 
         username, repo_name, pull_number = parse_key(d_key)
@@ -200,7 +256,45 @@ if __name__=='__main__':
                 if not file.filename.endswith('.java'):
                     continue
 
-                print(file.patch)
+                code_changes = extract_changes(file.patch)
+
+                for code_change in code_changes:
+                    
+                    text_del, text_add = code_change
+
+                    with open(INPUT_PATH, 'w+') as f:
+                        f.write(text_del)
+
+                    subprocess.run('python main.py', shell=True, cwd=TS_ROOT, stdout=subprocess.PIPE)
+
+                    ast_del = json.load(open(OUTPUT_PATH, 'r'))
+                    ast_del = get_custom_ast(ast_del)
+
+
+                    with open(INPUT_PATH, 'w+') as f:
+                        f.write(text_add)
+
+                    subprocess.run('python main.py', shell=True, cwd=TS_ROOT, stdout=subprocess.PIPE)
+
+                    ast_add = json.load(open(OUTPUT_PATH, 'r'))
+                    ast_add = get_custom_ast(ast_add)
+
+
+
+                    exit(0)
+                    
+
+
+
+
+
+                print('--------------------------------------------------')
+                q += 1
+
+                if q >= 5:
+                    exit(0)
+
+
 
                 # cur_text = get_cur_version(repo_path, file.sha)
                 # old_text = get_prev_version(cur_text, file.patch)
