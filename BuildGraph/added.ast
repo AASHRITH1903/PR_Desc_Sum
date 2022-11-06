@@ -1,18 +1,18 @@
 {
  "root": {
   "type": "15",
-  "id": "4",
+  "id": "32",
   "typeLabel": "CompilationUnit",
   "pos": "0",
-  "length": "270",
+  "length": "272",
   "children": [
    {
     "type": "55",
-    "id": "3",
+    "id": "31",
     "label": "class",
     "typeLabel": "TypeDeclaration",
     "pos": "0",
-    "length": "270",
+    "length": "272",
     "children": [
      {
       "type": "42",
@@ -25,18 +25,272 @@
      },
      {
       "type": "28",
-      "id": "2",
+      "id": "30",
       "typeLabel": "Initializer",
       "pos": "22",
-      "length": "246",
+      "length": "248",
       "children": [
        {
         "type": "8",
-        "id": "1",
+        "id": "29",
         "typeLabel": "Block",
         "pos": "22",
-        "length": "246",
-        "children": []
+        "length": "248",
+        "children": [
+         {
+          "type": "60",
+          "id": "14",
+          "typeLabel": "VariableDeclarationStatement",
+          "pos": "24",
+          "length": "122",
+          "children": [
+           {
+            "type": "43",
+            "id": "2",
+            "label": "XContentBuilder",
+            "typeLabel": "SimpleType",
+            "pos": "24",
+            "length": "15",
+            "children": [
+             {
+              "type": "42",
+              "id": "1",
+              "label": "XContentBuilder",
+              "typeLabel": "SimpleName",
+              "pos": "24",
+              "length": "15",
+              "children": []
+             }
+            ]
+           },
+           {
+            "type": "59",
+            "id": "13",
+            "typeLabel": "VariableDeclarationFragment",
+            "pos": "40",
+            "length": "104",
+            "children": [
+             {
+              "type": "42",
+              "id": "3",
+              "label": "builder",
+              "typeLabel": "SimpleName",
+              "pos": "40",
+              "length": "7",
+              "children": []
+             },
+             {
+              "type": "32",
+              "id": "12",
+              "typeLabel": "MethodInvocation",
+              "pos": "50",
+              "length": "94",
+              "children": [
+               {
+                "type": "32",
+                "id": "7",
+                "typeLabel": "MethodInvocation",
+                "pos": "50",
+                "length": "33",
+                "children": [
+                 {
+                  "type": "32",
+                  "id": "5",
+                  "typeLabel": "MethodInvocation",
+                  "pos": "50",
+                  "length": "15",
+                  "children": [
+                   {
+                    "type": "42",
+                    "id": "4",
+                    "label": "jsonBuilder",
+                    "typeLabel": "SimpleName",
+                    "pos": "50",
+                    "length": "11",
+                    "children": []
+                   }
+                  ]
+                 },
+                 {
+                  "type": "42",
+                  "id": "6",
+                  "label": "startObject",
+                  "typeLabel": "SimpleName",
+                  "pos": "68",
+                  "length": "11",
+                  "children": []
+                 }
+                ]
+               },
+               {
+                "type": "42",
+                "id": "8",
+                "label": "startObject",
+                "typeLabel": "SimpleName",
+                "pos": "86",
+                "length": "11",
+                "children": []
+               },
+               {
+                "type": "32",
+                "id": "11",
+                "typeLabel": "MethodInvocation",
+                "pos": "100",
+                "length": "42",
+                "children": [
+                 {
+                  "type": "40",
+                  "id": "9",
+                  "label": "AuditMessage.TYPE",
+                  "typeLabel": "QualifiedName",
+                  "pos": "100",
+                  "length": "19",
+                  "children": []
+                 },
+                 {
+                  "type": "42",
+                  "id": "10",
+                  "label": "getPreferredName",
+                  "typeLabel": "SimpleName",
+                  "pos": "122",
+                  "length": "16",
+                  "children": []
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "21",
+          "id": "18",
+          "typeLabel": "ExpressionStatement",
+          "pos": "147",
+          "length": "32",
+          "children": [
+           {
+            "type": "32",
+            "id": "17",
+            "typeLabel": "MethodInvocation",
+            "pos": "147",
+            "length": "30",
+            "children": [
+             {
+              "type": "42",
+              "id": "15",
+              "label": "addMetaInformation",
+              "typeLabel": "SimpleName",
+              "pos": "147",
+              "length": "18",
+              "children": []
+             },
+             {
+              "type": "42",
+              "id": "16",
+              "label": "builder",
+              "typeLabel": "SimpleName",
+              "pos": "168",
+              "length": "7",
+              "children": []
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "type": "21",
+          "id": "28",
+          "typeLabel": "ExpressionStatement",
+          "pos": "180",
+          "length": "88",
+          "children": [
+           {
+            "type": "32",
+            "id": "27",
+            "typeLabel": "MethodInvocation",
+            "pos": "180",
+            "length": "86",
+            "children": [
+             {
+              "type": "32",
+              "id": "22",
+              "typeLabel": "MethodInvocation",
+              "pos": "180",
+              "length": "36",
+              "children": [
+               {
+                "type": "42",
+                "id": "19",
+                "label": "builder",
+                "typeLabel": "SimpleName",
+                "pos": "180",
+                "length": "7",
+                "children": []
+               },
+               {
+                "type": "42",
+                "id": "20",
+                "label": "startObject",
+                "typeLabel": "SimpleName",
+                "pos": "190",
+                "length": "11",
+                "children": []
+               },
+               {
+                "type": "42",
+                "id": "21",
+                "label": "PROPERTIES",
+                "typeLabel": "SimpleName",
+                "pos": "204",
+                "length": "10",
+                "children": []
+               }
+              ]
+             },
+             {
+              "type": "42",
+              "id": "23",
+              "label": "startObject",
+              "typeLabel": "SimpleName",
+              "pos": "219",
+              "length": "11",
+              "children": []
+             },
+             {
+              "type": "32",
+              "id": "26",
+              "typeLabel": "MethodInvocation",
+              "pos": "233",
+              "length": "31",
+              "children": [
+               {
+                "type": "40",
+                "id": "24",
+                "label": "Job.ID",
+                "typeLabel": "QualifiedName",
+                "pos": "233",
+                "length": "8",
+                "children": []
+               },
+               {
+                "type": "42",
+                "id": "25",
+                "label": "getPreferredName",
+                "typeLabel": "SimpleName",
+                "pos": "244",
+                "length": "16",
+                "children": []
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
        }
       ]
      }

@@ -1,1 +1,1 @@
-class pad_pad_class { { return jsonBuilder ( ) . startObject ( ) . startObject ( AuditMessage . TYPE . getPreferredName ( ) ) . end } }
+class pad_pad_class { { return jsonBuilder ( ) . startObject ( ) . startObject ( AuditMessage . TYPE . getPreferredName ( ) ) . end ; } }

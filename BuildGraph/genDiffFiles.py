@@ -420,10 +420,25 @@ if __name__=='__main__':
 
         deleted_text, added_text = extract_segments(chunk)
 
-        del_root: Node = get_ast(deleted_text, 'deleted')
-        add_root = get_ast(added_text, 'added')
+        del_root: Node = get_ast(deleted_text+';', 'deleted')
+        add_root = get_ast(added_text+';', 'added')
 
         all_match_new, all_delete, all_add = get_ast_action('deleted', 'added', del_root, add_root)
+
+        print(len(all_delete), len(all_add))
+
+        for node in all_delete:
+
+            print(node)
+            break
+
+        for node in all_add:
+
+            print(node[0], node[1], node[2])
+            break
+
+        exit(0)
+
 
         graph = {}
         reverse_map = {}

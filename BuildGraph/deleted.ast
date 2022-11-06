@@ -1,18 +1,18 @@
 {
  "root": {
   "type": "15",
-  "id": "4",
+  "id": "16",
   "typeLabel": "CompilationUnit",
   "pos": "0",
-  "length": "135",
+  "length": "137",
   "children": [
    {
     "type": "55",
-    "id": "3",
+    "id": "15",
     "label": "class",
     "typeLabel": "TypeDeclaration",
     "pos": "0",
-    "length": "135",
+    "length": "137",
     "children": [
      {
       "type": "42",
@@ -25,18 +25,127 @@
      },
      {
       "type": "28",
-      "id": "2",
+      "id": "14",
       "typeLabel": "Initializer",
       "pos": "22",
-      "length": "111",
+      "length": "113",
       "children": [
        {
         "type": "8",
-        "id": "1",
+        "id": "13",
         "typeLabel": "Block",
         "pos": "22",
-        "length": "111",
-        "children": []
+        "length": "113",
+        "children": [
+         {
+          "type": "41",
+          "id": "12",
+          "typeLabel": "ReturnStatement",
+          "pos": "24",
+          "length": "109",
+          "children": [
+           {
+            "type": "22",
+            "id": "11",
+            "typeLabel": "FieldAccess",
+            "pos": "31",
+            "length": "100",
+            "children": [
+             {
+              "type": "32",
+              "id": "9",
+              "typeLabel": "MethodInvocation",
+              "pos": "31",
+              "length": "94",
+              "children": [
+               {
+                "type": "32",
+                "id": "4",
+                "typeLabel": "MethodInvocation",
+                "pos": "31",
+                "length": "33",
+                "children": [
+                 {
+                  "type": "32",
+                  "id": "2",
+                  "typeLabel": "MethodInvocation",
+                  "pos": "31",
+                  "length": "15",
+                  "children": [
+                   {
+                    "type": "42",
+                    "id": "1",
+                    "label": "jsonBuilder",
+                    "typeLabel": "SimpleName",
+                    "pos": "31",
+                    "length": "11",
+                    "children": []
+                   }
+                  ]
+                 },
+                 {
+                  "type": "42",
+                  "id": "3",
+                  "label": "startObject",
+                  "typeLabel": "SimpleName",
+                  "pos": "49",
+                  "length": "11",
+                  "children": []
+                 }
+                ]
+               },
+               {
+                "type": "42",
+                "id": "5",
+                "label": "startObject",
+                "typeLabel": "SimpleName",
+                "pos": "67",
+                "length": "11",
+                "children": []
+               },
+               {
+                "type": "32",
+                "id": "8",
+                "typeLabel": "MethodInvocation",
+                "pos": "81",
+                "length": "42",
+                "children": [
+                 {
+                  "type": "40",
+                  "id": "6",
+                  "label": "AuditMessage.TYPE",
+                  "typeLabel": "QualifiedName",
+                  "pos": "81",
+                  "length": "19",
+                  "children": []
+                 },
+                 {
+                  "type": "42",
+                  "id": "7",
+                  "label": "getPreferredName",
+                  "typeLabel": "SimpleName",
+                  "pos": "103",
+                  "length": "16",
+                  "children": []
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "type": "42",
+              "id": "10",
+              "label": "end",
+              "typeLabel": "SimpleName",
+              "pos": "128",
+              "length": "3",
+              "children": []
+             }
+            ]
+           }
+          ]
+         }
+        ]
        }
       ]
      }
