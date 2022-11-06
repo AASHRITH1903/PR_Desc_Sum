@@ -44,6 +44,9 @@ class ActionNode:
     def __eq__(self, node):
         return self.typ == node.typ and self.idx == node.idx and self.name == node.name
 
+    def __str__(self):
+        return f'typ = {self.typ}, idx = {self.idx}, name = {self.name}'
+
 
 def extract_segments(chunk):
 
@@ -261,7 +264,7 @@ def get_typ_idx(strr):
 
 def get_ast_action(file_name1, file_name2, root1, root2):
 
-    out = subprocess.Popen('../gumtree/gumtree/bin/gumtree diff %s.java %s.java'%(file_name1, file_name2), shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+    out = subprocess.Popen('../lib/gumtree/gumtree/bin/gumtree diff %s.java %s.java'%(file_name1, file_name2), shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
     stdout, _ = out.communicate()
     stdout = stdout.decode('utf-8')
     raw_actions = [x.strip() for x in stdout.splitlines() if x.strip()]
@@ -374,7 +377,33 @@ def get_ast_action(file_name1, file_name2, root1, root2):
         parent_id = cur_add[1].idx
         children_id = [x.ori_id for x in all_nodes2[map2[parent_id]].children]
         assert child_id in children_id
+
     return all_match_new, all_delete, all_add
+
+
+def traverse_graph(root, graph, idx, pidx, reverse_map, nodeType):
+
+    idx0 = idx[0]
+
+    # nodeType can be one of {addedAST, deletedAST, action}
+
+    graph[str(idx0)] = {
+        'ori_id': root.ori_id,
+        'idx': str(idx0),
+        'nodeType': nodeType,
+        'type': root.type,
+        'typeLabel': root.typeLabel,
+        'label': root.label,
+        'links': [pidx] if pidx is not None else []
+    }
+
+    reverse_map[f'{nodeType}_{root.ori_id}'] = idx0
+
+    for child in root.children:
+
+        graph[str(idx0)]['links'].append(idx[0]+1)
+        idx[0] += 1
+        traverse_graph(child, graph, idx, idx0, reverse_map, nodeType)
 
 
 if __name__=='__main__':
@@ -391,15 +420,47 @@ if __name__=='__main__':
 
         deleted_text, added_text = extract_segments(chunk)
 
-        del_root = get_ast(deleted_text, 'deleted')
+        del_root: Node = get_ast(deleted_text, 'deleted')
         add_root = get_ast(added_text, 'added')
 
-        all_match_new, all_delete, all_add = get_ast_action('deleted', 'added', 
-                                                            del_root, add_root)
+        all_match_new, all_delete, all_add = get_ast_action('deleted', 'added', del_root, add_root)
 
-        print(all_match_new)
-        print(all_delete)
-        print(all_add)
+        graph = {}
+        reverse_map = {}
+
+        idx = [0]
+        traverse_graph(del_root, graph, idx, None, reverse_map, 'deletedAst')
+        idx[0] += 1
+        traverse_graph(add_root, graph, idx, None, reverse_map, 'addedAst')
+        idx[0] += 1
+
+        for node in all_match_new:
+
+            link1 = reverse_map[f'deletedAst_{node[1].idx}']
+            link2 = reverse_map[f'addedAst_{node[2].idx}']
+
+            action_node = {
+                'ori_id': None,
+                'idx': str(idx[0]),
+                'nodeType': 'action',
+                'type': None,
+                'typeLabel': None,
+                'label': node[0],
+                'links': [link1, link2]
+            }
+
+            graph[str(link1)]['links'].append(idx[0])
+            graph[str(link2)]['links'].append(idx[0])
+            graph[str(idx[0])] = action_node
+
+            idx[0] += 1
+
+            # print(f'{node[0]}; {node[1]}; {node[2]}')
+
+        with open('graph.json', 'w+') as f:
+            json.dump(graph, f)
+
+
         exit(0)
 
 
