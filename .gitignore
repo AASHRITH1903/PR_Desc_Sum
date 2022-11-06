@@ -4,7 +4,8 @@ Preprocess/repos/
 Preprocess/temp/
 Preprocess/vocab.txt
 Preprocess/.env
-tree-sitter-codeviews/build/
-tree-sitter-codeviews/vendor/
-tree-sitter-codeviews/__pycache__/
-tree-sitter-codeviews/.DS_Store
+lib/tree-sitter-codeviews/build/
+lib/tree-sitter-codeviews/vendor/
+lib/tree-sitter-codeviews/__pycache__/
+lib/tree-sitter-codeviews/.DS_Store
+
