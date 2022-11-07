@@ -371,6 +371,7 @@ def get_ast_action(file_name1, file_name2, root1, root2):
     
     assert sum(document_move) == len(all_move)
     assert sum(document_update) == len(all_update)
+    
     for i in range(len(all_add)):
         cur_add = all_add[i]
         child_id = cur_add[0].idx
@@ -381,7 +382,7 @@ def get_ast_action(file_name1, file_name2, root1, root2):
     return all_match_new, all_delete, all_add
 
 
-def traverse_graph(root, graph, idx, pidx, reverse_map, nodeType):
+def traverse_graph(root: Node, graph, idx, pidx, reverse_map, reverse_map_pos, nodeType):
 
     idx0 = idx[0]
 
@@ -394,16 +395,18 @@ def traverse_graph(root, graph, idx, pidx, reverse_map, nodeType):
         'type': root.type,
         'typeLabel': root.typeLabel,
         'label': root.label,
+        'pos': root.pos,
         'links': [pidx] if pidx is not None else []
     }
 
     reverse_map[f'{nodeType}_{root.ori_id}'] = idx0
+    reverse_map_pos[f'{nodeType}_{root.pos}'] = idx0
 
     for child in root.children:
 
         graph[str(idx0)]['links'].append(idx[0]+1)
         idx[0] += 1
-        traverse_graph(child, graph, idx, idx0, reverse_map, nodeType)
+        traverse_graph(child, graph, idx, idx0, reverse_map, reverse_map_pos, nodeType)
 
 
 if __name__=='__main__':
@@ -420,33 +423,21 @@ if __name__=='__main__':
 
         deleted_text, added_text = extract_segments(chunk)
 
-        del_root: Node = get_ast(deleted_text+';', 'deleted')
-        add_root = get_ast(added_text+';', 'added')
+        deleted_text, added_text = deleted_text+';', added_text+';'
+
+        del_root: Node = get_ast(deleted_text, 'deleted')
+        add_root = get_ast(added_text, 'added')
 
         all_match_new, all_delete, all_add = get_ast_action('deleted', 'added', del_root, add_root)
 
-        print(len(all_delete), len(all_add))
-
-        for node in all_delete:
-
-            print(node)
-            break
-
-        for node in all_add:
-
-            print(node[0], node[1], node[2])
-            break
-
-        exit(0)
-
-
         graph = {}
         reverse_map = {}
+        reverse_map_pos = {}
 
         idx = [0]
-        traverse_graph(del_root, graph, idx, None, reverse_map, 'deletedAst')
+        traverse_graph(del_root, graph, idx, None, reverse_map, reverse_map_pos, 'deletedAst')
         idx[0] += 1
-        traverse_graph(add_root, graph, idx, None, reverse_map, 'addedAst')
+        traverse_graph(add_root, graph, idx, None, reverse_map, reverse_map_pos, 'addedAst')
         idx[0] += 1
 
         for node in all_match_new:
@@ -471,12 +462,73 @@ if __name__=='__main__':
             idx[0] += 1
 
             # print(f'{node[0]}; {node[1]}; {node[2]}')
+    
+        
+        for node in all_delete:
+            link1 = reverse_map[f'deletedAst_{node.idx}']
+
+            action_node = {
+                'ori_id': None,
+                'idx': str(idx[0]),
+                'nodeType': 'action',
+                'type': None,
+                'typeLabel': None,
+                'label': 'delete',
+                'links': [link1]
+            }
+
+            graph[str(link1)]['links'].append(idx[0])
+            graph[str(idx[0])] = action_node
+
+            idx[0] += 1
+
+        for node in all_add:
+            link1 = reverse_map[f'addedAst_{node[0].idx}']
+
+            action_node = {
+                'ori_id': None,
+                'idx': str(idx[0]),
+                'nodeType': 'action',
+                'type': None,
+                'typeLabel': None,
+                'label': 'add',
+                'links': [link1]
+            }
+
+            graph[str(link1)]['links'].append(idx[0])
+            graph[str(idx[0])] = action_node
+
+            idx[0] += 1
+
+
+        deleted_pos = [graph[node]['pos'] for node in graph if graph[node]['nodeType']=='deletedAst' and (graph[node]['label'] is not None or graph[node]['typeLabel']=='ReturnStatement')]
+        added_pos = [graph[node]['pos'] for node in graph if graph[node]['nodeType']=='addedAst' and (graph[node]['label'] is not None or graph[node]['typeLabel']=='ReturnStatement')]
+
+        deleted_pos = sorted(deleted_pos)
+        added_pos = sorted(added_pos)
+
+        # for node in graph.keys():
+        #     if graph[node]['nodeType'] == 'addedAst':
+        #         added_pos.append(graph[node]['pos'])
+        #     elif graph[node]['nodeType'] == 'deletedAst':
+        #         deleted_pos.append(graph[node]['pos'])
+
+        for i in range(len(deleted_pos)-1):
+
+            pos = deleted_pos[i]
+            next_pos = deleted_pos[i+1]
+
+            idx1 = reverse_map_pos[f'deletedAst_{pos}']
+            idx2 = reverse_map_pos[f'deletedAst_{next_pos}']
+
+            graph[str(idx1)]['links'].append(idx2)
+            graph[str(idx2)]['links'].append(idx1)
 
         with open('graph.json', 'w+') as f:
             json.dump(graph, f)
 
-
         exit(0)
+
 
 
 

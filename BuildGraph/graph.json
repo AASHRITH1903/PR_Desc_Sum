@@ -6,7 +6,8 @@
     "type": null,
     "typeLabel": null,
     "label": "root",
-    "links": [1]
+    "pos": -1,
+    "links": [1, 2]
   },
   "1": {
     "ori_id": 16,
@@ -15,6 +16,7 @@
     "type": "15",
     "typeLabel": "CompilationUnit",
     "label": null,
+    "pos": 0,
     "links": [0, 2, 63]
   },
   "2": {
@@ -24,7 +26,8 @@
     "type": "55",
     "typeLabel": "TypeDeclaration",
     "label": "class",
-    "links": [1, 3, 4, 55]
+    "pos": 0,
+    "links": [1, 3, 4, 55, 0, 3]
   },
   "3": {
     "ori_id": 0,
@@ -33,7 +36,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "pad_pad_class",
-    "links": [2, 52]
+    "pos": 6,
+    "links": [2, 52, 2, 6]
   },
   "4": {
     "ori_id": 14,
@@ -42,6 +46,7 @@
     "type": "28",
     "typeLabel": "Initializer",
     "label": null,
+    "pos": 22,
     "links": [2, 5, 61]
   },
   "5": {
@@ -51,6 +56,7 @@
     "type": "8",
     "typeLabel": "Block",
     "label": null,
+    "pos": 22,
     "links": [4, 6, 59]
   },
   "6": {
@@ -60,7 +66,8 @@
     "type": "41",
     "typeLabel": "ReturnStatement",
     "label": null,
-    "links": [5, 7]
+    "pos": 24,
+    "links": [5, 7, 68, 3, 11]
   },
   "7": {
     "ori_id": 11,
@@ -69,7 +76,8 @@
     "type": "22",
     "typeLabel": "FieldAccess",
     "label": null,
-    "links": [6, 8, 17]
+    "pos": 31,
+    "links": [6, 8, 17, 67]
   },
   "8": {
     "ori_id": 9,
@@ -78,7 +86,8 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
-    "links": [7, 9, 13, 14]
+    "pos": 31,
+    "links": [7, 9, 13, 14, 65]
   },
   "9": {
     "ori_id": 4,
@@ -87,6 +96,7 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
+    "pos": 31,
     "links": [8, 10, 12, 54]
   },
   "10": {
@@ -96,6 +106,7 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
+    "pos": 31,
     "links": [9, 11, 56]
   },
   "11": {
@@ -105,7 +116,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "jsonBuilder",
-    "links": [10, 64]
+    "pos": 31,
+    "links": [10, 64, 6, 12]
   },
   "12": {
     "ori_id": 3,
@@ -114,7 +126,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "startObject",
-    "links": [9, 62]
+    "pos": 49,
+    "links": [9, 62, 11, 13]
   },
   "13": {
     "ori_id": 5,
@@ -123,7 +136,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "startObject",
-    "links": [8, 58]
+    "pos": 67,
+    "links": [8, 58, 12, 15]
   },
   "14": {
     "ori_id": 8,
@@ -132,6 +146,7 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
+    "pos": 81,
     "links": [8, 15, 16, 57]
   },
   "15": {
@@ -141,7 +156,8 @@
     "type": "40",
     "typeLabel": "QualifiedName",
     "label": "AuditMessage.TYPE",
-    "links": [14, 53]
+    "pos": 81,
+    "links": [14, 53, 13, 16]
   },
   "16": {
     "ori_id": 7,
@@ -150,7 +166,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "getPreferredName",
-    "links": [14, 60]
+    "pos": 103,
+    "links": [14, 60, 15, 17]
   },
   "17": {
     "ori_id": 10,
@@ -159,7 +176,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "end",
-    "links": [7]
+    "pos": 128,
+    "links": [7, 66, 16]
   },
   "18": {
     "ori_id": null,
@@ -168,6 +186,7 @@
     "type": null,
     "typeLabel": null,
     "label": "root",
+    "pos": -1,
     "links": [19]
   },
   "19": {
@@ -177,6 +196,7 @@
     "type": "15",
     "typeLabel": "CompilationUnit",
     "label": null,
+    "pos": 0,
     "links": [18, 20, 63]
   },
   "20": {
@@ -186,6 +206,7 @@
     "type": "55",
     "typeLabel": "TypeDeclaration",
     "label": "class",
+    "pos": 0,
     "links": [19, 21, 22, 55]
   },
   "21": {
@@ -195,6 +216,7 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "pad_pad_class",
+    "pos": 6,
     "links": [20, 52]
   },
   "22": {
@@ -204,6 +226,7 @@
     "type": "28",
     "typeLabel": "Initializer",
     "label": null,
+    "pos": 22,
     "links": [20, 23, 61]
   },
   "23": {
@@ -213,6 +236,7 @@
     "type": "8",
     "typeLabel": "Block",
     "label": null,
+    "pos": 22,
     "links": [22, 24, 38, 42, 59]
   },
   "24": {
@@ -222,7 +246,8 @@
     "type": "60",
     "typeLabel": "VariableDeclarationStatement",
     "label": null,
-    "links": [23, 25, 27]
+    "pos": 24,
+    "links": [23, 25, 27, 69]
   },
   "25": {
     "ori_id": 2,
@@ -231,7 +256,8 @@
     "type": "43",
     "typeLabel": "SimpleType",
     "label": "XContentBuilder",
-    "links": [24, 26]
+    "pos": 24,
+    "links": [24, 26, 72]
   },
   "26": {
     "ori_id": 1,
@@ -240,7 +266,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "XContentBuilder",
-    "links": [25]
+    "pos": 24,
+    "links": [25, 76]
   },
   "27": {
     "ori_id": 13,
@@ -249,7 +276,8 @@
     "type": "59",
     "typeLabel": "VariableDeclarationFragment",
     "label": null,
-    "links": [24, 28, 29]
+    "pos": 40,
+    "links": [24, 28, 29, 73]
   },
   "28": {
     "ori_id": 3,
@@ -258,7 +286,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "builder",
-    "links": [27]
+    "pos": 40,
+    "links": [27, 77]
   },
   "29": {
     "ori_id": 12,
@@ -267,7 +296,8 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
-    "links": [27, 30, 34, 35]
+    "pos": 50,
+    "links": [27, 30, 34, 35, 78]
   },
   "30": {
     "ori_id": 7,
@@ -276,6 +306,7 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
+    "pos": 50,
     "links": [29, 31, 33, 54]
   },
   "31": {
@@ -285,6 +316,7 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
+    "pos": 50,
     "links": [30, 32, 56]
   },
   "32": {
@@ -294,6 +326,7 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "jsonBuilder",
+    "pos": 50,
     "links": [31, 64]
   },
   "33": {
@@ -303,6 +336,7 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "startObject",
+    "pos": 68,
     "links": [30, 62]
   },
   "34": {
@@ -312,6 +346,7 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "startObject",
+    "pos": 86,
     "links": [29, 58]
   },
   "35": {
@@ -321,6 +356,7 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
+    "pos": 100,
     "links": [29, 36, 37, 57]
   },
   "36": {
@@ -330,6 +366,7 @@
     "type": "40",
     "typeLabel": "QualifiedName",
     "label": "AuditMessage.TYPE",
+    "pos": 100,
     "links": [35, 53]
   },
   "37": {
@@ -339,6 +376,7 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "getPreferredName",
+    "pos": 122,
     "links": [35, 60]
   },
   "38": {
@@ -348,7 +386,8 @@
     "type": "21",
     "typeLabel": "ExpressionStatement",
     "label": null,
-    "links": [23, 39]
+    "pos": 147,
+    "links": [23, 39, 70]
   },
   "39": {
     "ori_id": 17,
@@ -357,7 +396,8 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
-    "links": [38, 40, 41]
+    "pos": 147,
+    "links": [38, 40, 41, 74]
   },
   "40": {
     "ori_id": 15,
@@ -366,7 +406,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "addMetaInformation",
-    "links": [39]
+    "pos": 147,
+    "links": [39, 79]
   },
   "41": {
     "ori_id": 16,
@@ -375,7 +416,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "builder",
-    "links": [39]
+    "pos": 168,
+    "links": [39, 80]
   },
   "42": {
     "ori_id": 28,
@@ -384,7 +426,8 @@
     "type": "21",
     "typeLabel": "ExpressionStatement",
     "label": null,
-    "links": [23, 43]
+    "pos": 180,
+    "links": [23, 43, 71]
   },
   "43": {
     "ori_id": 27,
@@ -393,7 +436,8 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
-    "links": [42, 44, 48, 49]
+    "pos": 180,
+    "links": [42, 44, 48, 49, 75]
   },
   "44": {
     "ori_id": 22,
@@ -402,7 +446,8 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
-    "links": [43, 45, 46, 47]
+    "pos": 180,
+    "links": [43, 45, 46, 47, 81]
   },
   "45": {
     "ori_id": 19,
@@ -411,7 +456,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "builder",
-    "links": [44]
+    "pos": 180,
+    "links": [44, 84]
   },
   "46": {
     "ori_id": 20,
@@ -420,7 +466,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "startObject",
-    "links": [44]
+    "pos": 190,
+    "links": [44, 85]
   },
   "47": {
     "ori_id": 21,
@@ -429,7 +476,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "PROPERTIES",
-    "links": [44]
+    "pos": 204,
+    "links": [44, 86]
   },
   "48": {
     "ori_id": 23,
@@ -438,7 +486,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "startObject",
-    "links": [43]
+    "pos": 219,
+    "links": [43, 82]
   },
   "49": {
     "ori_id": 26,
@@ -447,7 +496,8 @@
     "type": "32",
     "typeLabel": "MethodInvocation",
     "label": null,
-    "links": [43, 50, 51]
+    "pos": 233,
+    "links": [43, 50, 51, 83]
   },
   "50": {
     "ori_id": 24,
@@ -456,7 +506,8 @@
     "type": "40",
     "typeLabel": "QualifiedName",
     "label": "Job.ID",
-    "links": [49]
+    "pos": 233,
+    "links": [49, 87]
   },
   "51": {
     "ori_id": 25,
@@ -465,7 +516,8 @@
     "type": "42",
     "typeLabel": "SimpleName",
     "label": "getPreferredName",
-    "links": [49]
+    "pos": 244,
+    "links": [49, 88]
   },
   "52": {
     "ori_id": null,
@@ -583,5 +635,221 @@
     "typeLabel": null,
     "label": "match",
     "links": [11, 32]
+  },
+  "65": {
+    "ori_id": null,
+    "idx": "65",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "delete",
+    "links": [8]
+  },
+  "66": {
+    "ori_id": null,
+    "idx": "66",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "delete",
+    "links": [17]
+  },
+  "67": {
+    "ori_id": null,
+    "idx": "67",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "delete",
+    "links": [7]
+  },
+  "68": {
+    "ori_id": null,
+    "idx": "68",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "delete",
+    "links": [6]
+  },
+  "69": {
+    "ori_id": null,
+    "idx": "69",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [24]
+  },
+  "70": {
+    "ori_id": null,
+    "idx": "70",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [38]
+  },
+  "71": {
+    "ori_id": null,
+    "idx": "71",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [42]
+  },
+  "72": {
+    "ori_id": null,
+    "idx": "72",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [25]
+  },
+  "73": {
+    "ori_id": null,
+    "idx": "73",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [27]
+  },
+  "74": {
+    "ori_id": null,
+    "idx": "74",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [39]
+  },
+  "75": {
+    "ori_id": null,
+    "idx": "75",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [43]
+  },
+  "76": {
+    "ori_id": null,
+    "idx": "76",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [26]
+  },
+  "77": {
+    "ori_id": null,
+    "idx": "77",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [28]
+  },
+  "78": {
+    "ori_id": null,
+    "idx": "78",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [29]
+  },
+  "79": {
+    "ori_id": null,
+    "idx": "79",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [40]
+  },
+  "80": {
+    "ori_id": null,
+    "idx": "80",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [41]
+  },
+  "81": {
+    "ori_id": null,
+    "idx": "81",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [44]
+  },
+  "82": {
+    "ori_id": null,
+    "idx": "82",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [48]
+  },
+  "83": {
+    "ori_id": null,
+    "idx": "83",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [49]
+  },
+  "84": {
+    "ori_id": null,
+    "idx": "84",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [45]
+  },
+  "85": {
+    "ori_id": null,
+    "idx": "85",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [46]
+  },
+  "86": {
+    "ori_id": null,
+    "idx": "86",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [47]
+  },
+  "87": {
+    "ori_id": null,
+    "idx": "87",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [50]
+  },
+  "88": {
+    "ori_id": null,
+    "idx": "88",
+    "nodeType": "action",
+    "type": null,
+    "typeLabel": null,
+    "label": "add",
+    "links": [51]
   }
 }

@@ -1,0 +1,4 @@
+1. Convert links list to set
+2. Ask RISHA Lab to solve semicolon problem
+3. refactor the code -> if condition instead of list comprehension. 
+                            Take care of other cases as well.
