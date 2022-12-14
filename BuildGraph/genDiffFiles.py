@@ -4,7 +4,6 @@ import javalang
 import json
 
 
-
 MODIFIERS = ['abstract', 'default', 'final', 'native', 'private',
                   'protected', 'public', 'static', 'strictfp', 
                   'transient', 'volatile'] 
@@ -396,7 +395,8 @@ def traverse_graph(root: Node, graph, idx, pidx, reverse_map, reverse_map_pos, n
         'typeLabel': root.typeLabel,
         'label': root.label,
         'pos': root.pos,
-        'links': [pidx] if pidx is not None else []
+        'links': [pidx] if pidx is not None else [],
+        'link_type': ['normal'] if pidx is not None else [],
     }
 
     reverse_map[f'{nodeType}_{root.ori_id}'] = idx0
@@ -405,6 +405,7 @@ def traverse_graph(root: Node, graph, idx, pidx, reverse_map, reverse_map_pos, n
     for child in root.children:
 
         graph[str(idx0)]['links'].append(idx[0]+1)
+        graph[str(idx0)]['link_type'].append('normal')
         idx[0] += 1
         traverse_graph(child, graph, idx, idx0, reverse_map, reverse_map_pos, nodeType)
 
@@ -428,6 +429,7 @@ if __name__=='__main__':
         del_root: Node = get_ast(deleted_text, 'deleted')
         add_root = get_ast(added_text, 'added')
 
+        # all_match_new -> match, move, update
         all_match_new, all_delete, all_add = get_ast_action('deleted', 'added', del_root, add_root)
 
         graph = {}
@@ -440,6 +442,8 @@ if __name__=='__main__':
         traverse_graph(add_root, graph, idx, None, reverse_map, reverse_map_pos, 'addedAst')
         idx[0] += 1
 
+        # Add all action nodes -----
+
         for node in all_match_new:
 
             link1 = reverse_map[f'deletedAst_{node[1].idx}']
@@ -451,12 +455,15 @@ if __name__=='__main__':
                 'nodeType': 'action',
                 'type': None,
                 'typeLabel': None,
-                'label': node[0],
-                'links': [link1, link2]
+                'label': node[0], # match / move / update
+                'links': [link1, link2],
+                'link_type': ['action', 'action']
             }
 
             graph[str(link1)]['links'].append(idx[0])
+            graph[str(link1)]['link_type'].append('action')
             graph[str(link2)]['links'].append(idx[0])
+            graph[str(link2)]['link_type'].append('action')
             graph[str(idx[0])] = action_node
 
             idx[0] += 1
@@ -474,10 +481,12 @@ if __name__=='__main__':
                 'type': None,
                 'typeLabel': None,
                 'label': 'delete',
-                'links': [link1]
+                'links': [link1],
+                'link_type': ['action']
             }
 
             graph[str(link1)]['links'].append(idx[0])
+            graph[str(link1)]['link_type'].append('action')
             graph[str(idx[0])] = action_node
 
             idx[0] += 1
@@ -492,14 +501,18 @@ if __name__=='__main__':
                 'type': None,
                 'typeLabel': None,
                 'label': 'add',
-                'links': [link1]
+                'links': [link1],
+                'link_type': ['action']
             }
 
             graph[str(link1)]['links'].append(idx[0])
+            graph[str(link1)]['link_type'].append('action')
             graph[str(idx[0])] = action_node
 
             idx[0] += 1
 
+
+        # Sequential type edges ------------------
 
         deleted_pos = [graph[node]['pos'] for node in graph if graph[node]['nodeType']=='deletedAst' and (graph[node]['label'] is not None or graph[node]['typeLabel']=='ReturnStatement')]
         added_pos = [graph[node]['pos'] for node in graph if graph[node]['nodeType']=='addedAst' and (graph[node]['label'] is not None or graph[node]['typeLabel']=='ReturnStatement')]
@@ -523,6 +536,21 @@ if __name__=='__main__':
 
             graph[str(idx1)]['links'].append(idx2)
             graph[str(idx2)]['links'].append(idx1)
+            graph[str(idx1)]['link_type'].append('seq')
+            graph[str(idx2)]['link_type'].append('seq')
+
+        for i in range(len(added_pos)-1):
+
+            pos = added_pos[i]
+            next_pos = added_pos[i+1]
+
+            idx1 = reverse_map_pos[f'addedAst_{pos}']
+            idx2 = reverse_map_pos[f'addedAst_{next_pos}']
+
+            graph[str(idx1)]['links'].append(idx2)
+            graph[str(idx2)]['links'].append(idx1)
+            graph[str(idx1)]['link_type'].append('seq')
+            graph[str(idx2)]['link_type'].append('seq')
 
         with open('graph.json', 'w+') as f:
             json.dump(graph, f)

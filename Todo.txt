@@ -1,4 +1,14 @@
-1. Convert links list to set
-2. Ask RISHA Lab to solve semicolon problem
-3. refactor the code -> if condition instead of list comprehension. 
+1. Seperate nodes and edges.
+2. Add edge types information.
+3. No duplicates in edges.
+4. If the label is null, add the label.
+4. Ask RISHA Lab to solve semicolon problem: add a semicolon before padding.
+5. refactor the code -> if condition instead of list comprehension. 
                             Take care of other cases as well.
+                        
+
+{
+    "node_features":[[....]],
+    "edge_index":[],
+    "edge_type": []
+}
