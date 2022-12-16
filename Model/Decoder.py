@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 from Encoder import Encoder
-from Utils.Structures import Node
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)

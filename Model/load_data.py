@@ -117,7 +117,7 @@ def generate_batch(batch_size):
 
             batch_pr.append(pr)
             batch_prdesc.append(pr['body'])
-            batch_prdesc_shift.append(torch.cat([torch.tensor([2]).type(torch.long).to(device), pr['body'][:-1]], dim=0))
+            batch_prdesc_shift.append(torch.cat([torch.tensor([0]).type(torch.long).to(device), pr['body'][:-1]], dim=0))
                             
         batch_prdesc = torch.stack(batch_prdesc, dim=0)
         batch_prdesc_shift = torch.stack(batch_prdesc_shift, dim=0)
@@ -128,3 +128,8 @@ if __name__ == '__main__':
     print('Testing the generator function')
     for i, batch in enumerate(generate_batch(2)):
         print('Batch: ', i)
+        batch_pr, batch_prdesc, batch_prdesc_shift = batch
+        print(batch_prdesc)
+        print(batch_prdesc_shift)
+        if i == 2:
+            break

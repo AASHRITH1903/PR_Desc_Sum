@@ -11,7 +11,7 @@ MAX_COMMITS = 3
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class Encoder(nn.Module):
-    def __init__(self, embed_dim, hidden_dim, vocab_size, node_dim, num_layers):
+    def __init__(self, vocab_size, hidden_dim, embed_dim, node_dim, num_layers):
         super(Encoder, self).__init__()
         
         self.embed_dim = embed_dim
@@ -25,9 +25,9 @@ class Encoder(nn.Module):
         self.embedding = nn.Embedding(vocab_size, self.embed_dim)
         self.graph_emb = nn.Embedding(vocab_size, self.embed_dim)
         
-        self.enc_commit_msgs = nn.LSTM(embed_dim, hidden_dim,  num_layers=num_layers, batch_first=True)
-        self.enc_src_comments = nn.LSTM(embed_dim, hidden_dim,  num_layers=num_layers, batch_first=True)
-        self.enc_issue_titles = nn.LSTM(embed_dim, hidden_dim,  num_layers=num_layers, batch_first=True)
+        self.enc_commit_msgs = nn.LSTM(embed_dim, hidden_dim,  num_layers=num_layers, batch_first=True, dropout=0.1)
+        self.enc_src_comments = nn.LSTM(embed_dim, hidden_dim,  num_layers=num_layers, batch_first=True, dropout=0.1)
+        self.enc_issue_titles = nn.LSTM(embed_dim, hidden_dim,  num_layers=num_layers, batch_first=True, dropout=0.1)
 
         # Number of graph layers can be adjusted
         self.gcn = GCN(node_dim*embed_dim, hidden_dim)
@@ -198,13 +198,13 @@ if __name__ == '__main__':
                 graph = {}
                 graph['edge_index'] = torch.randint(0, 10, (10, 2))
                 graph['edge_attr'] = torch.rand((10, 1))
-                graph['node_features'] = torch.rand((10, 2))
+                graph['node_features'] = torch.rand((10, 3))
                 commit['graph'].append(graph)
             pr['commits'][j] = commit
         batch_pr.append(pr)
     
     # Create model
-    model = Encoder(emb_dim, hidden_dim, vocab_size, 2, num_layers=1)
+    model = Encoder(vocab_size, emb_dim, hidden_dim, 3, num_layers=3)
     model.to(device)
     h, c = model(batch_pr)
 
