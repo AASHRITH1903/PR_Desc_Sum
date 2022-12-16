@@ -1,0 +1,56 @@
+{
+ "root": {
+  "type": "15",
+  "id": "5",
+  "typeLabel": "CompilationUnit",
+  "pos": "0",
+  "length": "29",
+  "children": [
+   {
+    "type": "55",
+    "id": "4",
+    "label": "class",
+    "typeLabel": "TypeDeclaration",
+    "pos": "0",
+    "length": "29",
+    "children": [
+     {
+      "type": "42",
+      "id": "0",
+      "label": "pad_pad_class",
+      "typeLabel": "SimpleName",
+      "pos": "6",
+      "length": "13",
+      "children": []
+     },
+     {
+      "type": "28",
+      "id": "3",
+      "typeLabel": "Initializer",
+      "pos": "22",
+      "length": "5",
+      "children": [
+       {
+        "type": "8",
+        "id": "2",
+        "typeLabel": "Block",
+        "pos": "22",
+        "length": "5",
+        "children": [
+         {
+          "type": "20",
+          "id": "1",
+          "typeLabel": "EmptyStatement",
+          "pos": "24",
+          "length": "1",
+          "children": []
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -37,5 +37,5 @@ if __name__ == "__main__":
             new_graph['edge_index'].append([src, dest])
             new_graph['edge_type'].append(edge_type)
 
-    json.dump(new_graph, open('new_graph.json', 'w+'))
+    json.dump(new_graph, open('graph_processed.json', 'w+'))
 
