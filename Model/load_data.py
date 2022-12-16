@@ -1,9 +1,17 @@
+import sys
+sys.path.append('.')
+sys.path.append('..')
+
 import os
 import json
 import numpy as np
 import copy
+import torch
+import Constants
 
 join = os.path.join
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 N_GRAPHS = 1
 N_COMMITS = 10
@@ -11,16 +19,16 @@ N_PRDESC = Constants.MAX_LEN
 
 # write code for generating batches
 
-default_graph = {
-    'node_features': [[1, 1, 1]],
-    'edge_index': []
-}
+default_graph =   {
+    "node_features": [[1, 1], [1, 1]],
+    "edge_type": [[0]],
+    "edge_index": [[0, 1]]
+  }
 
 default_commit =  {
     'cm': [1],
     'comments': [1],
-    'old_asts': [default_ast]*N_ASTS,
-    'cur_asts': [default_ast]*N_ASTS
+    'graphs': [default_graph]*N_GRAPHS
 }
 
 def pad_body(body: list):
@@ -49,7 +57,18 @@ def pad_commits(commits: dict):
 
     return commits
 
+def pad_graphs (graphs: list):
+    n = len(graphs)
 
+    if n < N_GRAPHS:
+        for i in range(1, N_GRAPHS-n+1):
+            graphs.append(copy.deepcopy(default_graph))
+    elif n > N_GRAPHS:
+        graphs = graphs[:N_GRAPHS]
+
+    return graphs
+
+# Generator function will yield batches
 def generate_batch(batch_size):
     # read the Dataset/data.txt -> this contains the filename
     # take "batch_size" PRs at once and process them
@@ -59,23 +78,53 @@ def generate_batch(batch_size):
         # make a batch
         # return it -> yield() function
     
-    data = open('Dataset/data.txt', 'r')
+    data = open('../Dataset/data.txt', 'r')
     filenames = data.readlines()
     
-    for i in range(len(filenames)):
+    for i in range(0, len(filenames), batch_size):
         batch_pr = []
         batch_prdesc = []
         batch_prdesc_shift = []
 
-        for j in batch_size:
-            pr = json.load(open(join('Dataset', 'data', filenames[i+j]+'.json'), 'r'))
+        for j in range(min(batch_size, len(filenames)-i)):
+            name = filenames[i+j].strip()
+            pr = json.load(open(join('..', 'Dataset', 'data2', name+'.json'), 'r'))
 
             # Processing
-            pr['body'] = np.array(pad_body(pr['body']))
-            pr['issue_title'] = np.array(pr['issue_title'] if len(pr['issue_title']) > 0 else [1])
+            pr['body'] = torch.tensor(pad_body(pr['body'])).type(torch.long).to(device)
+            pr['issue_title'] = torch.tensor(pr['issue_title'] if len(pr['issue_title']) > 0 else [1]).type(torch.long).to(device).to(device)
 
             commits = pr['commits']
-            commits = pad
+            commits = pad_commits(commits)
 
-    pass
+            for sha in commits:
+                commits[sha]['cm'] = torch.tensor(commits[sha]['cm'] if len(commits[sha]['cm']) > 0 else [1]).type(torch.long).to(device)
+                commits[sha]['comments'] = torch.tensor(commits[sha]['comments'] if len(commits[sha]['comments']) > 0 else [1]).type(torch.long).to(device)
 
+                graphs = commits[sha]['graphs']
+                graphs = pad_graphs(graphs)
+
+                for graph in graphs:
+                    graph['node_features'] = torch.tensor(graph['node_features'], dtype=torch.float).to(device)
+                    graph['edge_index'] = torch.tensor(graph['edge_index'], dtype=torch.long).to(device)
+                    
+                    graph['edge_type'] = [[edg] for edg in graph['edge_type']]
+                    graph['edge_type'] = torch.tensor(graph['edge_type'], dtype=torch.long).to(device)
+                
+                commits[sha]['graphs'] = graphs
+
+            pr['commits'] = commits
+
+            batch_pr.append(pr)
+            batch_prdesc.append(pr['body'])
+            batch_prdesc_shift.append(torch.cat([torch.tensor([2]).type(torch.long).to(device), pr['body'][:-1]], dim=0))
+                            
+        batch_prdesc = torch.stack(batch_prdesc, dim=0)
+        batch_prdesc_shift = torch.stack(batch_prdesc_shift, dim=0)
+
+        yield batch_pr, batch_prdesc, batch_prdesc_shift
+
+if __name__ == '__main__':
+    print('Testing the generator function')
+    for i, batch in enumerate(generate_batch(2)):
+        print('Batch: ', i)
