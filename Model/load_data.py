@@ -14,15 +14,15 @@ join = os.path.join
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-N_GRAPHS = 1
-N_COMMITS = 10
+N_GRAPHS = Constants.N_GRAPHS
+N_COMMITS = Constants.N_COMMITS
 N_PRDESC = Constants.MAX_LEN
 
 # write code for generating batches
 
 default_graph =   {
     "node_features": [[1, 1, 1], [1, 1, 1]],
-    "edge_type": [[0]],
+    "edge_type": [0],
     "edge_index": [[0, 1]]
   }
 
@@ -105,8 +105,6 @@ def generate_batch(filenames, batch_size):
                 for graph in graphs:
                     graph['node_features'] = torch.tensor(graph['node_features'], dtype=torch.float).to(device)
                     graph['edge_index'] = torch.tensor(graph['edge_index'], dtype=torch.long).to(device)
-                    
-                    graph['edge_type'] = [[edg] for edg in graph['edge_type']]
                     graph['edge_type'] = torch.tensor(graph['edge_type'], dtype=torch.long).to(device)
                 
                 commits[sha]['graphs'] = graphs

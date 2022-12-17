@@ -1,12 +1,17 @@
+import sys
+sys.path.append('.')
+sys.path.append('..')
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.data import Data
+import Constants
 
 from Layers import GCN
 
-MAX_GRAPHS = 4
-MAX_COMMITS = 3
+MAX_GRAPHS = Constants.N_GRAPHS
+MAX_COMMITS = Constants.N_COMMITS
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
