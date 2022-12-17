@@ -1,8 +1,15 @@
-MAX_LEN = 100
 MAX_VOCAB = 50000
+vocab = eval(open('../Dataset/vocab.txt').read())
+VOCAB_SIZE = min(len(vocab), MAX_VOCAB)
+MAX_LEN = 100
 HIDDEN_DIM = 128
 EMBED_DIM = 128
-NUM_LAYERS = 1
-BATCH_SIZE = 2
+NUM_LAYERS = 2
+BATCH_SIZE = 1
+EPOCHS=50
 N_GRAPHS = 1
 N_COMMITS = 10
+TRAIN_SIZE = 2
+VALID_SIZE = 1
+TEST_SIZE = 2
+

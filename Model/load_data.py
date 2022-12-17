@@ -123,7 +123,7 @@ def generate_batch(filenames, batch_size):
 if __name__ == '__main__':
     print('Testing the generator function')
     filenames = open('../Dataset/data.txt').readlines()
-    model = Model(Constants.MAX_VOCAB, Constants.HIDDEN_DIM, Constants.EMBED_DIM, Constants.NUM_LAYERS).to(device)
+    model = Model(Constants.VOCAB_SIZE, Constants.HIDDEN_DIM, Constants.EMBED_DIM, Constants.NUM_LAYERS).to(device)
     for i, batch in enumerate(generate_batch(filenames, 2)):
         print('Batch: ', i)
         batch_pr, batch_prdesc, batch_prdesc_shift = batch

@@ -8,6 +8,7 @@ def preprocess_text(text:str):
     # can be used PR desc, commit message, commentsm - general preprocessing rules
      
     # split into sentences
+    text = re.sub(r'\\[nr]', ' ', text)
     sent_list = sent_tokenize(text)
     proc_list = []
 
@@ -105,7 +106,7 @@ def process_commits(commits):
     '''
 
     for commit in commits.values():
-        commit['cm'] = preprocess_text(commit['cm'])
+        commit['cm'] = preprocess_text(commit['cm'][1:-1])
         comments = get_comments(commit['comments'])
 
         proc_comments = []
@@ -114,6 +115,7 @@ def process_commits(commits):
                 continue
             if re.search(r'license', comment):
                 continue
+            # TODO: Java docs regex
             # if re.search(r'/\*\*([^\*]|\*(?!/))*?@.*?\*/', comment):
             #     continue
 
@@ -143,7 +145,7 @@ if __name__ == '__main__':
             continue
 
         # preprocess the PR desc
-        dataset_raw[d_key]['body'] = preprocess_text(dataset_raw[d_key]['body'])
+        dataset_raw[d_key]['body'] = preprocess_text(dataset_raw[d_key]['body'][1:-1])
         
         # empty or trivial or long descriptions
         if len(dataset_raw[d_key]['body']) < 5 or len(dataset_raw[d_key]['body']) > 100:

@@ -9,11 +9,8 @@ import Constants
 # import tensorflow as tf
 import torch
 import torch.nn as nn
-import numpy as np
 import os
 import time
-from load_data import load_data
-import json
 import torch.nn as nn
 import torch.optim as optim
 import math
@@ -32,9 +29,9 @@ def plotter(values, file_name):
         plt.ylim([0, 20])
 
     plt.plot(values)
-    plt.savefig(f'Model_Pytorch/{file_name}.png')
+    plt.savefig(f'{file_name}.png')
 
-    open(f'Model_Pytorch/{file_name}.txt', 'w+').write(str(values))
+    open(f'{file_name}.txt', 'w+').write(str(values))
 
 
 # @tf.function
@@ -57,7 +54,7 @@ def train_step(input_pr, target_prdesc_shift, target_prdesc, model: Model, optim
     model.train()
 
     logits = model(input_pr, target_prdesc_shift)
-    logits = logits[:, :-1]
+    # logits = logits[:, :-1]
     target_prdesc = torch.tensor(target_prdesc, dtype=torch.long, device=device)
     loss = loss_fn(logits, target_prdesc)
     accuracy = accuracy_fn(logits, target_prdesc)
@@ -75,7 +72,7 @@ def valid_step(input_pr, target_prdesc_shift, target_prdesc, model: Model):
     with torch.no_grad():
 
         logits = model(input_pr, target_prdesc_shift)
-        logits = logits[:, :-1]
+        # logits = logits[:, :-1]
         target_prdesc = torch.tensor(target_prdesc, dtype=torch.long, device=device)
         loss = loss_fn(logits, target_prdesc)
         accuracy = accuracy_fn(logits, target_prdesc)
@@ -109,8 +106,8 @@ def main_train(model: Model, fns_train, fns_valid, optimizer, epochs):
         # For every batch
         for batch, (batch_pr, batch_prdesc_shift, batch_prdesc) in enumerate(generate_batch(fns_train, Constants.BATCH_SIZE)):
 
-            # if batch > 0:
-            #     continue
+            if batch > 0:
+                continue
             # print(f"batch: {batch}")
 
             # Train the batch
@@ -121,7 +118,7 @@ def main_train(model: Model, fns_train, fns_valid, optimizer, epochs):
 
             if train_accuracy.item() > max_accuracy_train:
                 max_accuracy_train = train_accuracy.item()
-                torch.save(model.state_dict(), os.path.join('Model_Pytorch', 'model_best_train.pt'))
+                torch.save(model.state_dict(), os.path.join('model_best_train.pt'))
                 print("Model Train saved.")
 
         valid_acc_sum = 0.0
@@ -142,7 +139,7 @@ def main_train(model: Model, fns_train, fns_valid, optimizer, epochs):
         if avg_valid_acc > max_accuracy_valid:
         #if valid_accuracy.item() > max_accuracy_valid:
             max_accuracy_valid = avg_valid_acc
-            torch.save(model.state_dict(), os.path.join('Model_Pytorch', 'model_best_valid.pt'))
+            torch.save(model.state_dict(), os.path.join('model_best_valid.pt'))
             print("Model Valid saved.")
 
 
@@ -152,11 +149,10 @@ def main_train(model: Model, fns_train, fns_valid, optimizer, epochs):
 
 if __name__ == '__main__':
 
-    filenames = open('../Dataset/data.txt').readlines()
-    fns_train = filenames[:6]
-    fns_valid = filenames[6:]
+    fns_train = open('../Dataset/data_train.txt').readlines()
+    fns_valid = open('../Dataset/data_valid.txt').readlines()
 
-    model = Model(Constants.MAX_VOCAB, Constants.HIDDEN_DIM, Constants.EMBED_DIM, Constants.NUM_LAYERS).to(device)
+    model = Model(Constants.VOCAB_SIZE, Constants.HIDDEN_DIM, Constants.EMBED_DIM, Constants.NUM_LAYERS).to(device)
     model = nn.DataParallel(model)
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -168,6 +164,6 @@ if __name__ == '__main__':
     plotter(accuracies, 'accuracies')
 
     # Save model
-    torch.save(model.state_dict(), os.path.join('Model_Pytorch', 'model_final.pt'))
+    torch.save(model.state_dict(), os.path.join('model_final.pt'))
 
     print('Done')
