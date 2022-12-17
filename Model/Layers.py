@@ -33,20 +33,20 @@ Graph described by instance of torch_geometric.data.Data
 
 
 class GCN(nn.Module):
-    def __init__(self, c_in=2, c_out=2):
+    def __init__(self, c_in=3, c_out=2):
         super(GCN, self).__init__()
-        self.conv1 = RGCNConv(c_in, c_out, heads=1, concat=True)
-        self.conv2 = RGCNConv(c_out, c_out, heads=1, concat=True)
+        self.conv1 = RGCNConv(c_in, c_out, num_relations=3)
+        self.conv2 = RGCNConv(c_out, c_out, num_relations=3)
         
     def forward(self, data):
         x, edge_index, edge_attr = data.x, data.edge_index, data.edge_attr
 
-        x = self.conv1(x=x, edge_index=edge_index, edge_attr=edge_attr)
+        x = self.conv1(x=x, edge_index=edge_index, edge_type=edge_attr)
         x = F.relu(x)
         x = F.dropout(x, training=self.training)
-        x = self.conv2(x=x, edge_index=edge_index, edge_attr=edge_attr)
+        x = self.conv2(x=x, edge_index=edge_index, edge_type=edge_attr)
+        
         return x
-
 
 
 if __name__ == "__main__":

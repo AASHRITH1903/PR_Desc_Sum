@@ -193,13 +193,13 @@ if __name__ == '__main__':
             commit = {}
             commit['comments'] = torch.randint(0, vocab_size, (10,))
             commit['cm'] = torch.randint(0, vocab_size, (10,))
-            commit['graph'] = []
+            commit['graphs'] = []
             for k in range(num_graphs):
                 graph = {}
                 graph['edge_index'] = torch.randint(0, 10, (10, 2))
-                graph['edge_attr'] = torch.rand((10, 1))
-                graph['node_features'] = torch.rand((10, 3))
-                commit['graph'].append(graph)
+                graph['edge_type'] = torch.randint(0, 3, (10, ))
+                graph['node_features'] = torch.randint(0, 100, (10, 3))
+                commit['graphs'].append(graph)
             pr['commits'][j] = commit
         batch_pr.append(pr)
     
