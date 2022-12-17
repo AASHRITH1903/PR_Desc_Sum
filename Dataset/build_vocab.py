@@ -1,9 +1,9 @@
 import json
 import os
 from os import path
+import Constants
 
-MAX_VOCAB = 50000
-
+MAX_VOCAB = Constants.MAX_VOCAB
 
 
 def compute_vocab():

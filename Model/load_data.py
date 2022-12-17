@@ -8,6 +8,7 @@ import numpy as np
 import copy
 import torch
 import Constants
+from Model import Model
 
 join = os.path.join
 
@@ -20,7 +21,7 @@ N_PRDESC = Constants.MAX_LEN
 # write code for generating batches
 
 default_graph =   {
-    "node_features": [[1, 1], [1, 1]],
+    "node_features": [[1, 1, 1], [1, 1, 1]],
     "edge_type": [[0]],
     "edge_index": [[0, 1]]
   }
@@ -69,7 +70,7 @@ def pad_graphs (graphs: list):
     return graphs
 
 # Generator function will yield batches
-def generate_batch(batch_size):
+def generate_batch(filenames, batch_size):
     # read the Dataset/data.txt -> this contains the filename
     # take "batch_size" PRs at once and process them
     # processing
@@ -77,9 +78,6 @@ def generate_batch(batch_size):
         # convert to tensors
         # make a batch
         # return it -> yield() function
-    
-    data = open('../Dataset/data.txt', 'r')
-    filenames = data.readlines()
     
     for i in range(0, len(filenames), batch_size):
         batch_pr = []
@@ -126,10 +124,16 @@ def generate_batch(batch_size):
 
 if __name__ == '__main__':
     print('Testing the generator function')
-    for i, batch in enumerate(generate_batch(2)):
+    filenames = open('../Dataset/data.txt').readlines()
+    model = Model(Constants.MAX_VOCAB, Constants.HIDDEN_DIM, Constants.EMBED_DIM, Constants.NUM_LAYERS).to(device)
+    for i, batch in enumerate(generate_batch(filenames, 2)):
         print('Batch: ', i)
         batch_pr, batch_prdesc, batch_prdesc_shift = batch
+
+        out = model(batch_pr, batch_prdesc_shift)
+        print(out.shape)
         print(batch_prdesc)
         print(batch_prdesc_shift)
+
         if i == 2:
             break

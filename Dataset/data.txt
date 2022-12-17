@@ -1,5 +1,4 @@
 elastic_elasticsearch_37945
-elastic_elasticsearch_37945
 elastic_elasticsearch_37872
 elastic_elasticsearch_37821
 elastic_elasticsearch_37797

@@ -2,7 +2,7 @@ import torch
 from torch_geometric.data import Data
 from torch_geometric.loader import DataLoader
 import torch.nn as nn
-from torch_geometric.nn import GATv2Conv, GATConv, GCNConv
+from torch_geometric.nn import GATv2Conv, GATConv, GCNConv, RGCNConv
 import torch.nn.functional as F
 
 from Utils import get_graph
@@ -35,8 +35,8 @@ Graph described by instance of torch_geometric.data.Data
 class GCN(nn.Module):
     def __init__(self, c_in=2, c_out=2):
         super(GCN, self).__init__()
-        self.conv1 = GATConv(c_in, c_out, heads=1, concat=True)
-        self.conv2 = GATConv(c_out, c_out, heads=1, concat=True)
+        self.conv1 = RGCNConv(c_in, c_out, heads=1, concat=True)
+        self.conv2 = RGCNConv(c_out, c_out, heads=1, concat=True)
         
     def forward(self, data):
         x, edge_index, edge_attr = data.x, data.edge_index, data.edge_attr

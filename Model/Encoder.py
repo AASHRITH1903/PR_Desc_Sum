@@ -91,7 +91,7 @@ class Encoder(nn.Module):
             enc_commit_msgs, (h_commit_msgs, c_commit_msgs) = self.enc_commit_msgs(emb_commit_msgs, (h0, c0)) # (1, seq_len, hidden_dim), (num_layers, 1, hidden_dim), (num_layers, 1, hidden_dim)
 
             # Get graphs
-            graphs = commit['graph'] # This is the diff graph
+            graphs = commit['graphs'] # This is the diff graph
 
 
             h_graph = []
@@ -99,7 +99,7 @@ class Encoder(nn.Module):
             for graph in graphs:
                 # Create the Data object
                 edge_index = torch.tensor(graph['edge_index'], dtype=torch.long).t().contiguous()
-                edge_attr = torch.tensor(graph['edge_attr'], dtype=torch.float)
+                edge_attr = torch.tensor(graph['edge_type'], dtype=torch.float)
                 x = torch.tensor(graph['node_features'], dtype=torch.long)
 
                 x = x.to(device)
