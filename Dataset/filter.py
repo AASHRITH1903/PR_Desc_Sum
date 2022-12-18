@@ -136,7 +136,11 @@ if __name__ == '__main__':
     dataset_raw = json.load(open('dataset.json', 'r'))
     dataset_new = dict()
 
+    i = 0
     for d_key in dataset_raw:
+
+        print(f'---------- datapoint {i} --------------')
+        i += 1
 
         if len(dataset_raw[d_key]['body']) == 0:
             continue

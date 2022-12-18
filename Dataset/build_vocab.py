@@ -19,8 +19,11 @@ def compute_vocab():
 
     filenames = open('data.txt').readlines()
 
+    i = 0
     for filename in filenames:
 
+        print(f"-------- datapoint {i} ----------")
+        i += 1
         datapoint = json.load(open(f'data/{filename[:-1]}.json'))
 
         for x in datapoint['body'].split():
@@ -69,14 +72,12 @@ def encode_word_to_index():
 
     filenames = open('data.txt').readlines()
 
-    i = 1
-
+    i = 0
     for filename in filenames:
-
-        datapoint = json.load(open(f'data/{filename[:-1]}.json'))
 
         print(f"-------- datapoint {i} ----------")
         i += 1
+        datapoint = json.load(open(f'data/{filename[:-1]}.json'))
 
         datapoint['body'] = [_index(x) for x in datapoint['body'].split()]
         datapoint['issue_title'] = [_index(x) for x in datapoint['issue_title'].split()]
@@ -101,7 +102,6 @@ if __name__=='__main__':
     vocab = compute_vocab()
     open('vocab.txt', 'w+').write(str(vocab))
     print("vocab saved.")
-
     encode_word_to_index()
 
 

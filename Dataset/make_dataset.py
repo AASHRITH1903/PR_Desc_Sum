@@ -84,8 +84,12 @@ if __name__=='__main__':
     if not path.isfile('data.txt'):
         open('data.txt', 'w+')
 
+    i = 0
     for d_key in dataset:
 
+        print(f'---------- datapoint {i} -----------')
+        i += 1
+        
         del dataset[d_key]['id']
         del dataset[d_key]['cms']
 
