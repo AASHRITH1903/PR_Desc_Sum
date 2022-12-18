@@ -89,7 +89,7 @@ if __name__=='__main__':
 
         print(f'---------- datapoint {i} -----------')
         i += 1
-        
+
         del dataset[d_key]['id']
         del dataset[d_key]['cms']
 
@@ -146,7 +146,12 @@ if __name__=='__main__':
                 open('diff.txt', 'w+').write(file.patch)
                 subprocess.run('python make_graph.py', shell=True)
                 subprocess.run('python process_graph.py', shell=True)
-                graph = json.load(open('graph_processed.json'))
+                try:
+                    graph = json.load(open('graph_processed.json'))
+                except:
+                    # if the graph is not successfully generated
+                    # continue to the next file
+                    continue
                 dataset[d_key]['commits'][f"'{commit.sha}'"]['graphs'].append(graph)
                 # only one graph
                 break

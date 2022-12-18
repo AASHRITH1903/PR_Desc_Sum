@@ -430,7 +430,10 @@ if __name__=='__main__':
         add_root = get_ast(added_text, 'added')
 
         # all_match_new -> match, move, update
-        all_match_new, all_delete, all_add = get_ast_action('deleted', 'added', del_root, add_root)
+        try:
+            all_match_new, all_delete, all_add = get_ast_action('deleted', 'added', del_root, add_root)
+        except:
+            continue
 
         graph = {}
         reverse_map = {}
