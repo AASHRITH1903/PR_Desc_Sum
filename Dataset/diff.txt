@@ -1,0 +1,37 @@
+@@ -960,10 +960,10 @@ private static void addModelSizeStatsFieldsToMapping(XContentBuilder builder) th
+     }
+ 
+     public static XContentBuilder auditMessageMapping() throws IOException {
+-        return jsonBuilder()
+-                .startObject()
+-                    .startObject(AuditMessage.TYPE.getPreferredName())
+-                        .endObject(PROPERTIES)
++        XContentBuilder builder = jsonBuilder().startObject()
++            .startObject(AuditMessage.TYPE.getPreferredName());
++        addMetaInformation(builder);
++        builder.startObject(PROPERTIES).startObject(Job.ID.getPreferredName())
+                                 .field(TYPE, KEYWORD)
+                             .endObject()
+@@ -109,10 +109,11 @@ public static void createAnnotationsIndexIfNecessary(Settings settings, Client c
+     }
+ 
+     public static XContentBuilder annotationsMapping() throws IOException {
+-        return jsonBuilder()
++        XContentBuilder builder = jsonBuilder().startObject()
+-                .startObject(ElasticsearchMappings.DOC_TYPE)
+-                    .startObject(ElasticsearchMappings.PROPERTIES)
++                .startObject(ElasticsearchMappings.DOC_TYPE);
++        ElasticsearchMappings.addMetaInformation(builder);
++        builder.startObject(ElasticsearchMappings.PROPERTIES)
+                         .startObject(Annotation.ANNOTATION.getPreferredName())
+                             .field(ElasticsearchMappings.TYPE, ElasticsearchMappings.TEXT)
+                         .endObject()
+ @@ -18,6 +18,8 @@
+  */
+ package org.elasticsearch.action.admin.indices.close;
+ 
++import org.apache.logging.log4j.LogManager;
++import org.apache.logging.log4j.Logger;
+ import org.elasticsearch.action.ActionListener;
+ import org.elasticsearch.action.admin.indices.flush.FlushRequest;
+ import org.elasticsearch.action.support.ActionFilters;

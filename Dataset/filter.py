@@ -9,6 +9,7 @@ def preprocess_text(text:str):
      
     # split into sentences
     text = re.sub(r'\\[nr]', ' ', text)
+    text = text.lower()
     sent_list = sent_tokenize(text)
     proc_list = []
 
