@@ -106,6 +106,8 @@ if __name__=='__main__':
             user, repo, pull_req = get_obj(username, repo_name, pull_number, user, repo)
 
         issue_res = requests.get(pull_req.issue_url)
+        if issue_res.status_code != 200:
+            print(issue_res.json()['message'])
         issue_title = issue_res.json()['title']
         issue_title = preprocess_text(issue_title)
 

@@ -90,86 +90,86 @@ def process_bracket(tokens):
 
 def get_ast(text, file_name):
 
-    # if len(text) == 0:
-    #     return None, -1
+    if len(text) == 0:
+        return None, -1
 
-    # try:
-    #     tokens_ori = list(javalang.tokenizer.tokenize(text))
-    # except:
-    #     return None, -1
+    try:
+        tokens_ori = list(javalang.tokenizer.tokenize(text))
+    except:
+        return None, -1
         
-    # codes_ori = [x.value for x in tokens_ori]
+    codes_ori = [x.value for x in tokens_ori]
 
-    # if len(codes_ori) == 0:  
-    #     return None, -1
+    if len(codes_ori) == 0:  
+        return None, -1
     
-    # if 'implement' in codes_ori:
-    #     codes_ori.remove('implement')
-    # if codes_ori[-1] == 'implements':
-    #     codes_ori.remove('implements')
-    # if len(codes_ori) == 0:
-    #     return None, -1
+    if 'implement' in codes_ori:
+        codes_ori.remove('implement')
+    if codes_ori[-1] == 'implements':
+        codes_ori.remove('implements')
+    if len(codes_ori) == 0:
+        return None, -1
     
     
-    # if len(codes_ori) >= 4 and 'class' in codes_ori and codes_ori[-2] == '<' and codes_ori[-1] != '>':
-    #     codes_ori += '>' 
+    if len(codes_ori) >= 4 and 'class' in codes_ori and codes_ori[-2] == '<' and codes_ori[-1] != '>':
+        codes_ori += '>' 
     
-    # codes_ori = process_bracket(codes_ori)
+    codes_ori = process_bracket(codes_ori)
     
-    # if len(codes_ori) == 0:
-    #     return None, -1
+    if len(codes_ori) == 0:
+        return None, -1
     
-    # ori_start_token = ' '.join(codes_ori)
+    ori_start_token = ' '.join(codes_ori)
     
-    # if codes_ori[0] == 'import':
-    #     pass
-    # elif codes_ori[0] == 'package':
-    #     pass
-    # elif codes_ori[0] == '@':
-    #     if 'class' in codes_ori:  # definition of class
-    #         pass
-    #     else:  # definition of method
-    #         codes_ori = ['class', 'pad_pad_class', '{'] + codes_ori + ['}']
-    #         # gumtree can only parse class, so a padding class needs to be inserted
-    # elif codes_ori[0] in MODIFIERS:
+    if codes_ori[0] == 'import':
+        pass
+    elif codes_ori[0] == 'package':
+        pass
+    elif codes_ori[0] == '@':
+        if 'class' in codes_ori:  # definition of class
+            pass
+        else:  # definition of method
+            codes_ori = ['class', 'pad_pad_class', '{'] + codes_ori + ['}']
+            # gumtree can only parse class, so a padding class needs to be inserted
+    elif codes_ori[0] in MODIFIERS:
         
-    #     if 'class' in codes_ori:  # definition of class
-    #         if codes_ori[-1] == '}':
-    #             pass
-    #         elif codes_ori[-1] == '{':
-    #             raise
-    #         else:
-    #             codes_ori +=  ['{', '}'] 
-    #     elif '(' in codes_ori and ')' in codes_ori and ('=' not in codes_ori or ('='  in codes_ori and codes_ori.index('(') < codes_ori.index('=') and codes_ori.index(')') < codes_ori.index('='))):  # definition of method
-    #         if codes_ori[-1] == '}':
-    #             pass
-    #         elif codes_ori[-1] == '{':
-    #             raise
-    #         elif codes_ori[-1] != ';':
-    #             codes_ori +=  ['{', '}'] 
+        if 'class' in codes_ori:  # definition of class
+            if codes_ori[-1] == '}':
+                pass
+            elif codes_ori[-1] == '{':
+                raise
+            else:
+                codes_ori +=  ['{', '}'] 
+        elif '(' in codes_ori and ')' in codes_ori and ('=' not in codes_ori or ('='  in codes_ori and codes_ori.index('(') < codes_ori.index('=') and codes_ori.index(')') < codes_ori.index('='))):  # definition of method
+            if codes_ori[-1] == '}':
+                pass
+            elif codes_ori[-1] == '{':
+                raise
+            elif codes_ori[-1] != ';':
+                codes_ori +=  ['{', '}'] 
                 
-    #         codes_ori = ['class', 'pad_pad_class', '{'] + codes_ori + ['}']
-    #     else:  # definition of field
-    #         codes_ori = ['class', 'pad_pad_class', '{', '{'] + codes_ori + ['}', '}']
-    # elif codes_ori[0] == '{':
-    #     codes_ori = ['class', 'pad_pad_class', '{'] + codes_ori + ['}']
-    # else:
-    #     if codes_ori[0] == 'if':
-    #         if codes_ori[-1] == '}':
-    #             pass
-    #         elif codes_ori[-1] == '{':
+            codes_ori = ['class', 'pad_pad_class', '{'] + codes_ori + ['}']
+        else:  # definition of field
+            codes_ori = ['class', 'pad_pad_class', '{', '{'] + codes_ori + ['}', '}']
+    elif codes_ori[0] == '{':
+        codes_ori = ['class', 'pad_pad_class', '{'] + codes_ori + ['}']
+    else:
+        if codes_ori[0] == 'if':
+            if codes_ori[-1] == '}':
+                pass
+            elif codes_ori[-1] == '{':
                 
-    #             raise
-    #         elif codes_ori[-1] == ')':
-    #             codes_ori +=  ['{', '}']
-    #     codes_ori = ['class', 'pad_pad_class', '{', '{'] + codes_ori + ['}', '}']
+                raise
+            elif codes_ori[-1] == ')':
+                codes_ori +=  ['{', '}']
+        codes_ori = ['class', 'pad_pad_class', '{', '{'] + codes_ori + ['}', '}']
 
   
-    # text = ' '.join(codes_ori)
-    # start_code_pos = text.index(ori_start_token)
-    # assert start_code_pos != -1
+    text = ' '.join(codes_ori)
+    start_code_pos = text.index(ori_start_token)
+    assert start_code_pos != -1
 
-    # open('%s.java'%file_name, 'w+').write(text)
+    open('%s.java'%file_name, 'w+').write(text)
     
     root = get_ast_root(file_name)
 
@@ -421,20 +421,21 @@ if __name__=='__main__':
     chunks = chunks[1:]
 
     for chunk in chunks:
-
         deleted_text, added_text = extract_segments(chunk)
 
         deleted_text, added_text = deleted_text+';', added_text+';'
 
-        deleted_text, added_text = "", ""
-
+        # deleted_text, added_text = "", ""
+        # print(deleted_text, added_text)
         del_root: Node = get_ast(deleted_text, 'deleted')
         add_root = get_ast(added_text, 'added')
 
+        # print(del_root, add_root)
         # all_match_new -> match, move, update
         try:
             all_match_new, all_delete, all_add = get_ast_action('deleted', 'added', del_root, add_root)
-        except:
+        except Exception as e:
+            print(e)
             continue
 
         graph = {}
