@@ -1,1 +1,0 @@
-class pad_pad_class { { void enterSysTableTypes ( SqlBaseParser . SysTableTypesContext ctx ) ; void exitSysTableTypes ( SqlBaseParser . SysTableTy    pesContext ctx ) ; ; } }
