@@ -8,9 +8,14 @@ lib/tree-sitter-codeviews/build/
 lib/tree-sitter-codeviews/vendor/
 lib/tree-sitter-codeviews/__pycache__/
 lib/tree-sitter-codeviews/.DS_Store
-Dataset/dataset_all.json
-Dataset/dataset_filtered.json
-Dataset/dataset.json
 Dataset/data/
+Dataset/data2/
+Dataset/*.java
+Dataset/*.ast
+Dataset/*.txt
+Dataset/*.json
+Dataset/__pycache__/
+
+
 
 
