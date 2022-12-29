@@ -91,16 +91,19 @@ def process_bracket(tokens):
 def get_ast(text, file_name):
 
     if len(text) == 0:
+        print("No code.")
         return None, -1
 
     try:
         tokens_ori = list(javalang.tokenizer.tokenize(text))
     except:
+        print("Tokenization error.")
         return None, -1
         
     codes_ori = [x.value for x in tokens_ori]
 
-    if len(codes_ori) == 0:  
+    if len(codes_ori) == 0: 
+        print("No Tokens") 
         return None, -1
     
     if 'implement' in codes_ori:
@@ -108,6 +111,7 @@ def get_ast(text, file_name):
     if codes_ori[-1] == 'implements':
         codes_ori.remove('implements')
     if len(codes_ori) == 0:
+        print("No Tokens after filtering") 
         return None, -1
     
     
@@ -117,6 +121,7 @@ def get_ast(text, file_name):
     codes_ori = process_bracket(codes_ori)
     
     if len(codes_ori) == 0:
+        print("No Tokens after brackets") 
         return None, -1
     
     ori_start_token = ' '.join(codes_ori)
@@ -182,6 +187,7 @@ def get_ast_root(file_name):
     try:
         ast = json.loads(stdout.decode('utf-8'))
     except:
+        print("error: gum tree parse.")
         return None
     json.dump(ast, open('%s.ast'%(file_name), 'w'), indent=1)
     root = Node()
