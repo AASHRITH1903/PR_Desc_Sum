@@ -22,10 +22,10 @@ def parse_key(d_key):
         Parses the dataset key which is in the form
         <user>/<repo>_<pull_number>
     '''
-    username = d_key.split('/')[0]
-    repo_name = d_key.split('/')[1].split('_')[0]
-    pull_number = int(d_key.split('/')[1].split('_')[1])
-
+    username, temp = d_key.split('/')
+    repo_name, pull_number = temp.rsplit('_', 1)
+    pull_number = int(pull_number)
+    
     return username, repo_name, pull_number
 
 def wait_to_reset():
@@ -41,7 +41,6 @@ def get_obj(username, repo_name, pull_number, user, repo):
     '''
         Calls the Github api to fetch the user, repo, and pull objects
     '''
-
     if not user or not user.name == username:
         user = github.get_user(username)
         repo = user.get_repo(repo_name)
@@ -88,10 +87,15 @@ if __name__=='__main__':
     for d_key in dataset:
 
         print(f'---------- datapoint {i} -----------')
+        if i<=18976:
+            i+=1
+            continue
         i += 1
 
         del dataset[d_key]['id']
         del dataset[d_key]['cms']
+
+        print(d_key)
 
         username, repo_name, pull_number = parse_key(d_key)
 
@@ -99,25 +103,42 @@ if __name__=='__main__':
             user, repo, pull_req = get_obj(username, repo_name, pull_number, user, repo)
         except GithubException as e:
             print(e.data)
+            if e.status == 404:
+                if e.data['message'] == 'Not Found':
+                    continue
             wait_to_reset()
             user, repo, pull_req = get_obj(username, repo_name, pull_number, user, repo)
         except Exception as e:
             time.sleep(5)
             user, repo, pull_req = get_obj(username, repo_name, pull_number, user, repo)
 
-        issue_res = requests.get(pull_req.issue_url)
-        if issue_res.status_code != 200:
-            print(issue_res.json()['message'])
-        issue_title = issue_res.json()['title']
-        issue_title = preprocess_text(issue_title)
 
-        try:
-            issue_res = requests.get(pull_req.issue_url)
-            issue_title = issue_res.json()['title']
-            dataset[d_key]['issue_title'] = preprocess_text(issue_title)
-        except:
-            print("No issue associated.")
-            dataset[d_key]['issue_title'] = ''
+        #print(issue.title)
+        #exit(0)
+        #issue_res = requests.get(pull_req.issue_url)
+        #if issue_res.status_code != 200:
+        #    print("Error: ", issue_res.json()['message'])
+        #    successful = False
+        #    while not successful:
+        #        print("Sleeping for 10 mins ...")
+        #        time.sleep(10*60) # 10 mins
+        #        issue_res = requests.get(pull_req.issue_url)
+        #        successful = (issue_res.status_code == 200)
+
+        #issue_title = issue_res.json()['title']
+        #issue_title = preprocess_text(issue_title)
+
+        issue_number = int(pull_req.issue_url.split('/')[-1])
+        issue = repo.get_issue(number=issue_number)
+        dataset[d_key]['issue_title'] = preprocess_text(issue.title)
+
+        #try:
+            #issue_res = requests.get(pull_req.issue_url)
+            #issue_title = issue_res.json()['title']
+            #dataset[d_key]['issue_title'] = preprocess_text(issue_title)
+        #except:
+            #print("No issue associated.")
+            #dataset[d_key]['issue_title'] = ''
 
         commit_shas = list(dataset[d_key]['commits'].keys())
 
@@ -137,7 +158,14 @@ if __name__=='__main__':
             if f"'{commit.sha}'" not in commit_shas:
                 continue
 
-            print(f'COMMIT {commit.sha}: {len(commit.files)} files.')
+            try:
+                print(f'COMMIT {commit.sha}: {len(commit.files)} files.')
+            except GithubException as e:
+               if e.status == 422:
+                   if e.data['message'] == "The request could not be processed because too many files changed":
+                       print("error: too many files")
+                       continue
+
 
             for file in commit.files:
 
@@ -145,6 +173,8 @@ if __name__=='__main__':
                 if not file.filename.endswith('.java'):
                     continue
             
+                if not file.patch:
+                    continue
                 open('diff.txt', 'w+').write(file.patch)
                 subprocess.run('python make_graph.py', shell=True)
                 subprocess.run('python process_graph.py', shell=True)
